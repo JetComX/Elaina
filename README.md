@@ -1,5 +1,7 @@
 # Elaina
 
+[English](README_EN.md)
+
 Elaina 是一款 Android 应用，通过将应用进程绑定到指定 CPU 核心来优化设备性能和功耗，实现精细化 CPU 亲和性管理。需要 Root 权限和 AppOpt Magisk 模块。
 
 ## 名称来源
