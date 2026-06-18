@@ -1,0 +1,83 @@
+package com.jetcomx.elaina.ui.component
+
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.kyant.backdrop.Backdrop
+import com.kyant.backdrop.drawBackdrop
+import com.kyant.backdrop.effects.blur
+import com.kyant.backdrop.effects.lens
+import com.kyant.backdrop.effects.vibrancy
+import top.yukonga.miuix.kmp.basic.BasicComponent
+import top.yukonga.miuix.kmp.basic.BasicComponentColors
+import top.yukonga.miuix.kmp.basic.BasicComponentDefaults
+import top.yukonga.miuix.kmp.basic.SwitchColors
+import top.yukonga.miuix.kmp.basic.SwitchDefaults
+import top.yukonga.miuix.kmp.preference.ArrowPreference
+
+@Composable
+@NonRestartableComposable
+fun LiquidSwitchPreference(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    title: String,
+    backdrop: Backdrop,
+    modifier: Modifier = Modifier,
+    titleColor: BasicComponentColors = BasicComponentDefaults.titleColor(),
+    summary: String? = null,
+    summaryColor: BasicComponentColors = BasicComponentDefaults.summaryColor(),
+    startAction: @Composable (() -> Unit)? = null,
+    endActions: @Composable RowScope.() -> Unit = {},
+    bottomAction: (@Composable () -> Unit)? = null,
+    switchColors: SwitchColors = SwitchDefaults.switchColors(),
+    insideMargin: PaddingValues = BasicComponentDefaults.InsideMargin,
+    holdDownState: Boolean = false,
+    enabled: Boolean = true,
+) {
+    val currentOnCheckedChange by rememberUpdatedState(onCheckedChange)
+    BasicComponent(
+        modifier = modifier.drawBackdrop(
+            backdrop = backdrop,
+            effects = {
+                standardGlassEffects()
+            },
+            shape = { RoundedCornerShape(12.dp) }
+        ),
+        insideMargin = insideMargin,
+        title = title,
+        titleColor = titleColor,
+        summary = summary,
+        summaryColor = summaryColor,
+        startAction = startAction,
+        endActions = {
+            Row(
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .align(Alignment.CenterVertically)
+                    .weight(1f, fill = false),
+            ) {
+                endActions()
+            }
+            LiquidSwitch(
+                checked = checked,
+                onCheckedChange = currentOnCheckedChange,
+                backdrop = backdrop,
+            )
+        },
+        bottomAction = bottomAction,
+        onClick = {
+            currentOnCheckedChange.takeIf { enabled }?.invoke(!checked)
+        },
+        holdDownState = holdDownState,
+        enabled = enabled,
+    )
+}
