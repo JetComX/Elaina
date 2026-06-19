@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import top.yukonga.miuix.kmp.basic.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
@@ -25,7 +24,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -35,27 +33,28 @@ import androidx.navigation3.ui.NavDisplay
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.jetcomx.elaina.R
-import com.jetcomx.elaina.navigation.MainNavScreen
 import com.jetcomx.elaina.navigation.LocalNavigator
+import com.jetcomx.elaina.navigation.MainNavScreen
 import com.jetcomx.elaina.navigation.Route
 import com.jetcomx.elaina.navigation.rememberNavigator
 import com.jetcomx.elaina.screen.settings.AboutScreen
 import com.jetcomx.elaina.screen.settings.CreditsScreen
 import com.jetcomx.elaina.screen.settings.LiquidGlassCustomizeScreen
 import com.jetcomx.elaina.screen.welcome.WelcomeScreen
-import com.jetcomx.elaina.ui.component.DreamFluidBackground
-import com.jetcomx.elaina.ui.component.LocalBackgroundBackdrop
-import com.jetcomx.elaina.ui.component.ShaderWarmUp
+import com.jetcomx.elaina.ui.component.BgEffectBackground
 import com.jetcomx.elaina.ui.component.LiquidButton
 import com.jetcomx.elaina.ui.component.LiquidInputTextField
 import com.jetcomx.elaina.ui.component.LiquidModalBottomSheet
+import com.jetcomx.elaina.ui.component.LocalBackgroundBackdrop
+import com.jetcomx.elaina.ui.component.ShaderWarmUp
 import com.jetcomx.elaina.utils.AppSettings
 import com.jetcomx.elaina.viewmodel.MainViewModel
-import top.yukonga.miuix.kmp.basic.Text
-import top.yukonga.miuix.kmp.theme.MiuixTheme
-import top.yukonga.miuix.kmp.window.WindowBottomSheet
 import com.kyant.backdrop.backdrops.layerBackdrop
 import com.kyant.backdrop.backdrops.rememberLayerBackdrop
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextField
+import top.yukonga.miuix.kmp.theme.MiuixTheme
+import top.yukonga.miuix.kmp.window.WindowBottomSheet
 
 @Composable
 fun MainScreen() {
@@ -72,36 +71,24 @@ fun MainScreen() {
     } else null
 
     val bgBackdrop = rememberLayerBackdrop()
-
     Box(modifier = Modifier.fillMaxSize()) {
         ShaderWarmUp()
 
         if (bgUri != null) {
             Box(modifier = Modifier.fillMaxSize().layerBackdrop(bgBackdrop)) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MiuixTheme.colorScheme.background)
-                )
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(bgUri)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
+                Box(Modifier.fillMaxSize().background(MiuixTheme.colorScheme.background))
+                AsyncImage(model = ImageRequest.Builder(LocalContext.current).data(bgUri).crossfade(true).build(), contentDescription = null, modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
             }
         } else if (backgroundStyle == 1) {
-            DreamFluidBackground()
+            BgEffectBackground(
+                dynamicBackground = true,
+                modifier = Modifier.fillMaxSize(),
+                bgModifier = Modifier.layerBackdrop(bgBackdrop),
+                isFullSize = true,
+                effectBackground = true,
+            ) {  }
         } else if (uiStyle == 1) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .layerBackdrop(bgBackdrop)
-                    .background(MiuixTheme.colorScheme.background)
-            )
+            Box(Modifier.fillMaxSize().layerBackdrop(bgBackdrop).background(MiuixTheme.colorScheme.background))
         }
 
         CompositionLocalProvider(LocalBackgroundBackdrop provides bgBackdrop) {

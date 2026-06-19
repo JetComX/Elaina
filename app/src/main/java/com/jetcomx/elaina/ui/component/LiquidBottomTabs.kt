@@ -184,13 +184,12 @@ fun LiquidBottomTabs(
                     },
                     onDrawSurface = { drawRect(containerColor) }
                 )
-                .then(interactiveHighlight.modifier)
+                .then(if (effHighlight) interactiveHighlight.modifier else Modifier)
                 .height(64.dp).fillMaxWidth().padding(4.dp),
             verticalAlignment = Alignment.CenterVertically,
             content = content
         )
 
-        
         CompositionLocalProvider(
             LocalLiquidBottomTabScale provides { lerp(1f, 1.12f, dampedDragAnimation.pressProgress) }
         ) {
@@ -208,10 +207,10 @@ fun LiquidBottomTabs(
                             blur(blurRadiusPx * 4f)
                             lens(lensHeightPx * 2f * progress, lensAmountPx * 2f * progress, depthEffect, effChromaticAberration)
                         },
-                        highlight = if (effHighlight) { { Highlight.Default.copy(alpha = dampedDragAnimation.pressProgress) } } else null,
+                        highlight = if (effHighlight) { { Highlight.Ambient.copy(alpha = dampedDragAnimation.pressProgress) } } else null,
                         onDrawSurface = { drawRect(containerColor) }
                     )
-                    .then(interactiveHighlight.modifier)
+                    .then(if (effHighlight) interactiveHighlight.modifier else Modifier)
                     .height(56.dp).fillMaxWidth().padding(horizontal = 4.dp)
                     .graphicsLayer(colorFilter = ColorFilter.tint(accentColor)),
                 verticalAlignment = Alignment.CenterVertically,
@@ -219,7 +218,6 @@ fun LiquidBottomTabs(
             )
         }
 
-        
         Box(
             Modifier
                 .padding(horizontal = 4.dp)
@@ -235,9 +233,9 @@ fun LiquidBottomTabs(
                         val progress = dampedDragAnimation.pressProgress
                         lens(lensHeightPx * 0.8f * progress, lensAmountPx * 0.6f * progress, depthEffect, effChromaticAberration)
                     },
-                    highlight = if (effHighlight) { { Highlight.Default.copy(alpha = dampedDragAnimation.pressProgress) } } else null,
-                    shadow = { Shadow(alpha = dampedDragAnimation.pressProgress) },
-                    innerShadow = { InnerShadow(radius = 8.dp * dampedDragAnimation.pressProgress, alpha = dampedDragAnimation.pressProgress) },
+                    highlight = if (effHighlight) { { Highlight.Ambient.copy(alpha = 0.15f + dampedDragAnimation.pressProgress * 0.85f) } } else null,
+                    shadow = if (effHighlight) { { Shadow(alpha = dampedDragAnimation.pressProgress) } } else null,
+                    innerShadow = if (effHighlight) { { InnerShadow(radius = 8.dp * dampedDragAnimation.pressProgress, alpha = dampedDragAnimation.pressProgress) } } else null,
                     layerBlock = {
                         scaleX = dampedDragAnimation.scaleX; scaleY = dampedDragAnimation.scaleY
                         val velocity = dampedDragAnimation.velocity / 10f

@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">Elaina</string>
     <string name="by_jetcomx">By JetComX</string>
     <string name="hi">Hi!</string>
@@ -230,6 +230,7 @@
     <string name="settings_lg_hint_lens_blur">Lens Blur controls the blur spread at lens edges (in dp). Works together with Dilation to shape the overall lens intensity.</string>
     <string name="settings_lg_hint_chromatic_aberration">Chromatic aberration simulates camera lens color fringing, creating rainbow-like color separation at lens edges. Only supported by some components (e.g., LiquidSwitch).</string>
     <string name="settings_lg_hint_highlight">Highlight reflection simulates ambient light reflecting on the glass surface, enhancing the 3D glass texture. Only supported by some components (e.g., LiquidSwitch, LiquidDialog).</string>
+    <string name="settings_lg_glass_customize">LiquidGlass Customize</string>
     <string name="settings_lg_view_hint">View Hint</string>
     <string name="about_developer">Developer</string>
     <string name="about_github">GitHub: github.com/jetcomx</string>

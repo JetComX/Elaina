@@ -8,17 +8,17 @@ import com.jetcomx.elaina.R
 import com.jetcomx.elaina.utils.AppData
 import com.jetcomx.elaina.utils.AppListParser
 import com.jetcomx.elaina.utils.AppSettings
-import com.jetcomx.elaina.utils.CryptoStore
 import com.jetcomx.elaina.utils.CpuMonitor
+import com.jetcomx.elaina.utils.CryptoStore
 import com.jetcomx.elaina.utils.ModuleChecker
 import com.jetcomx.elaina.utils.RootUtils
 import com.jetcomx.elaina.utils.SettingsStore
 import com.jetcomx.elaina.utils.SystemInfoProvider
 import com.jetcomx.elaina.utils.UpdateChecker
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoadingViewModel(application: Application) : AndroidViewModel(application) {

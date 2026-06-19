@@ -1,7 +1,6 @@
 package com.jetcomx.elaina.utils
 
 import android.content.Context
-import android.util.Base64
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.DataInputStream

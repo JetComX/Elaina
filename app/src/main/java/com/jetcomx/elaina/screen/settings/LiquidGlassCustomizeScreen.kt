@@ -14,13 +14,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.ui.Alignment
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -36,9 +36,11 @@ import com.jetcomx.elaina.ui.component.LocalBackgroundBackdrop
 import com.jetcomx.elaina.utils.AppSettings
 import com.kyant.backdrop.backdrops.rememberLayerBackdrop
 import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.MiuixScrollBehavior
 import top.yukonga.miuix.kmp.basic.Scaffold
 import top.yukonga.miuix.kmp.basic.SwitchDefaults
 import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TopAppBar
 import top.yukonga.miuix.kmp.icon.MiuixIcons
 import top.yukonga.miuix.kmp.icon.extended.Theme
 import top.yukonga.miuix.kmp.theme.MiuixTheme
@@ -68,8 +70,19 @@ fun LiquidGlassCustomizeScreen() {
     var hintText by remember { mutableStateOf("") }
     var showHint by remember { mutableStateOf(false) }
 
+    val primary = MiuixTheme.colorScheme.primary
+    val scrollBehavior = MiuixScrollBehavior()
+
     Scaffold(
-        containerColor = if (customBg) Color.Transparent else MiuixTheme.colorScheme.background
+        containerColor = if (customBg) Color.Transparent else MiuixTheme.colorScheme.background,
+        topBar = {
+            TopAppBar(
+                title = stringResource(R.string.settings_lg_glass_customize),
+                    titleColor = primary,
+                    scrollBehavior = scrollBehavior,
+                    color = if (customBg) Color.Transparent else MiuixTheme.colorScheme.background
+            )
+        }
     ) { paddingValues ->
         Column(
             modifier = Modifier

@@ -1,6 +1,10 @@
 package com.jetcomx.elaina.service
 
-import android.app.*
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.Service
 import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.os.Build
@@ -11,7 +15,9 @@ import androidx.core.app.NotificationCompat
 import com.jetcomx.elaina.MainActivity
 import com.jetcomx.elaina.R
 import com.jetcomx.elaina.utils.ModuleChecker
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AppOptService : Service() {
 

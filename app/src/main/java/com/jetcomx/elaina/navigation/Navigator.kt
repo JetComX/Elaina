@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.navigation3.runtime.NavKey
-import com.jetcomx.elaina.navigation.Route
 
 class Navigator(val backStack: SnapshotStateList<NavKey>) {
     fun push(route: Route) {

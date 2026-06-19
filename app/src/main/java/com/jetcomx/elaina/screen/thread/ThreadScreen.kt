@@ -1,6 +1,6 @@
 package com.jetcomx.elaina.screen.thread
 
-import android.R.attr.text
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
@@ -35,6 +35,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.VideogameAsset
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -52,7 +53,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.isSpecified
@@ -60,6 +60,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -70,11 +71,11 @@ import com.jetcomx.elaina.R
 import com.jetcomx.elaina.ui.component.LiquidButton
 import com.jetcomx.elaina.ui.component.LiquidCard
 import com.jetcomx.elaina.ui.component.LiquidCircularProgressIndicator
+import com.jetcomx.elaina.ui.component.LiquidDropdownImpl
 import com.jetcomx.elaina.ui.component.LiquidGlassSnackbarHostImpl
 import com.jetcomx.elaina.ui.component.LiquidInputTextField
-import com.jetcomx.elaina.ui.component.LiquidTextField
-import com.jetcomx.elaina.ui.component.LiquidDropdownImpl
 import com.jetcomx.elaina.ui.component.LiquidListPopupColumn
+import com.jetcomx.elaina.ui.component.LiquidTextField
 import com.jetcomx.elaina.ui.component.LiquidWindowDialog
 import com.jetcomx.elaina.ui.component.LiquidWindowListPopup
 import com.jetcomx.elaina.ui.component.LocalBackgroundBackdrop
@@ -85,8 +86,6 @@ import com.jetcomx.elaina.utils.CrashHandler
 import com.jetcomx.elaina.utils.GameThreadPresets
 import com.jetcomx.elaina.utils.ThreadCpuInfo
 import com.jetcomx.elaina.viewmodel.ThreadViewModel
-import android.content.pm.PackageManager
-import androidx.compose.material.icons.filled.VideogameAsset
 import com.kyant.backdrop.Backdrop
 import com.kyant.backdrop.backdrops.rememberLayerBackdrop
 import kotlinx.coroutines.Dispatchers
@@ -98,13 +97,12 @@ import top.yukonga.miuix.kmp.basic.Card
 import top.yukonga.miuix.kmp.basic.CardDefaults
 import top.yukonga.miuix.kmp.basic.DropdownEntry
 import top.yukonga.miuix.kmp.basic.DropdownItem
-import top.yukonga.miuix.kmp.basic.HorizontalDivider
-import top.yukonga.miuix.kmp.basic.ListPopupColumn
-import top.yukonga.miuix.kmp.basic.PopupPositionProvider
 import top.yukonga.miuix.kmp.basic.FloatingActionButton
+import top.yukonga.miuix.kmp.basic.HorizontalDivider
 import top.yukonga.miuix.kmp.basic.IconButton
 import top.yukonga.miuix.kmp.basic.InfiniteProgressIndicator
 import top.yukonga.miuix.kmp.basic.MiuixScrollBehavior
+import top.yukonga.miuix.kmp.basic.PopupPositionProvider
 import top.yukonga.miuix.kmp.basic.Scaffold
 import top.yukonga.miuix.kmp.basic.SnackbarHost
 import top.yukonga.miuix.kmp.basic.SnackbarHostState
@@ -119,6 +117,7 @@ import top.yukonga.miuix.kmp.utils.overScrollVertical
 import top.yukonga.miuix.kmp.utils.scrollEndHaptic
 import top.yukonga.miuix.kmp.window.WindowCascadingListPopup
 import top.yukonga.miuix.kmp.window.WindowDialog
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun ThreadScreen() {
@@ -300,9 +299,6 @@ fun ThreadScreen() {
     var showDeleteDialog by remember { mutableStateOf(false) }
     var deleteTarget by remember { mutableStateOf<String?>(null) }
 
-    val cpuCoreCount = Runtime.getRuntime().availableProcessors()
-
-    
     var showGameScanConfirm by remember { mutableStateOf(false) }
     var showGameScanResult by remember { mutableStateOf(false) }
     var scanResults by remember { mutableStateOf<List<GameScanResult>>(emptyList()) }
@@ -364,9 +360,9 @@ fun ThreadScreen() {
             ) {
                 Column(
                     horizontalAlignment = Alignment.End,
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.padding(bottom = 72.dp)
                 ) {
-                    
                     if (uiStyle == 1) {
                         LiquidButton(
                             backdrop = backdrop,
@@ -532,7 +528,7 @@ fun ThreadScreen() {
                                             threadJob?.cancel()
                                             threadJob = scope.launch(Dispatchers.IO) {
                                                 try {
-                                                    withTimeout(15000) {
+                                                    withTimeout(15000.milliseconds) {
                                                         val t0 = System.currentTimeMillis()
                                                         val psText = runCatching {
                                                             val p = Runtime.getRuntime()
@@ -637,7 +633,7 @@ fun ThreadScreen() {
                                                             }
 
                                                             val j1 = readThreadJiffies()
-                                                            delay(800)
+                                                            delay(800.milliseconds)
                                                             val t2 = System.currentTimeMillis()
                                                             val j2 = readThreadJiffies()
                                                             val intervalSec = (t2 - t0) / 1000f

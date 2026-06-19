@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.add
@@ -19,17 +18,15 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
@@ -46,17 +43,16 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import com.jetcomx.elaina.R
 import com.jetcomx.elaina.myconst.MODULE_URI
 import com.jetcomx.elaina.myconst.getVersionName
@@ -75,7 +71,6 @@ import com.jetcomx.elaina.utils.SystemInfoProvider
 import com.jetcomx.elaina.utils.UpdateChecker
 import com.jetcomx.elaina.viewmodel.HomeViewModel
 import com.jetcomx.elaina.viewmodel.ThreadViewModel
-import coil.compose.AsyncImage
 import com.kyant.backdrop.Backdrop
 import com.kyant.backdrop.backdrops.rememberLayerBackdrop
 import kotlinx.coroutines.launch
@@ -92,9 +87,7 @@ import top.yukonga.miuix.kmp.basic.SnackbarHostState
 import top.yukonga.miuix.kmp.basic.Text
 import top.yukonga.miuix.kmp.basic.TopAppBar
 import top.yukonga.miuix.kmp.icon.MiuixIcons
-import top.yukonga.miuix.kmp.icon.extended.ConvertFile
-import top.yukonga.miuix.kmp.icon.extended.More
-import top.yukonga.miuix.kmp.icon.extended.Update
+import top.yukonga.miuix.kmp.icon.extended.Email
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 import top.yukonga.miuix.kmp.utils.PressFeedbackType
 import top.yukonga.miuix.kmp.utils.overScrollVertical
@@ -344,7 +337,7 @@ fun HomeScreen(onNavigateToThread: () -> Unit = {}) {
     val buildTime by viewModel.moduleBuildTime.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
     var showWorkInfoDialog by remember { mutableStateOf(false) }
-    var showChangelog by remember { mutableStateOf(false) }
+    var showUpdateLogDialog by remember { mutableStateOf(false) }
     var isLineChart by remember { mutableStateOf(false) }
     val cpuUsages by viewModel.cpuUsages.collectAsState()
     val ruleGroups by threadViewModel.ruleGroups.collectAsState()
@@ -374,7 +367,6 @@ fun HomeScreen(onNavigateToThread: () -> Unit = {}) {
     }
 
     LaunchedEffect(Unit) { CrashHandler.logScreen("HomeScreen") }
-    val ctx = LocalContext.current
 
     Scaffold(
         containerColor = if (customBg || uiStyle == 1) Color.Transparent else MiuixTheme.colorScheme.background,
@@ -388,6 +380,11 @@ fun HomeScreen(onNavigateToThread: () -> Unit = {}) {
                 largeTitleColor = MiuixTheme.colorScheme.primary,
                 titleColor = MiuixTheme.colorScheme.primary,
                 color = if (customBg || uiStyle == 1) Color.Transparent else MiuixTheme.colorScheme.background,
+                actions = {
+                    IconButton(onClick = { onNavigateToThread() }) {
+                        Icon(MiuixIcons.Email, contentDescription = null)
+                    }
+                }
             )
         },
         snackbarHost = {
@@ -703,6 +700,42 @@ fun HomeScreen(onNavigateToThread: () -> Unit = {}) {
                         ) {
                             Text(stringResource(R.string.dialog_cancel))
                         }
+                    }
+                }
+            }
+        }
+        if (showUpdateLogDialog) {
+            val updateLog = updateInfo.updateLog
+            val title = stringResource(R.string.update_log_title)
+            if (uiStyle == 1) {
+                com.jetcomx.elaina.ui.component.LiquidWindowDialog(
+                    show = true, backdrop = backdrop, title = title,
+                    onDismissRequest = { showUpdateLogDialog = false },
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(max = 400.dp)
+                            .verticalScroll(rememberScrollState())
+                            .padding(16.dp),
+                    ) {
+                        Text(updateLog, fontSize = 14.sp, color = MiuixTheme.colorScheme.onSurface)
+                    }
+                }
+            } else {
+                top.yukonga.miuix.kmp.window.WindowDialog(
+                    show = true, title = title,
+                    backgroundColor = MiuixTheme.colorScheme.background,
+                    onDismissRequest = { showUpdateLogDialog = false },
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(max = 400.dp)
+                            .verticalScroll(rememberScrollState())
+                            .padding(16.dp),
+                    ) {
+                        Text(updateLog, fontSize = 14.sp, color = MiuixTheme.colorScheme.onSurface)
                     }
                 }
             }

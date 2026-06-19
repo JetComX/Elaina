@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">Elaina</string>
     <string name="by_jetcomx">By JetComX</string>
     <string name="hi">嗨！</string>
@@ -230,6 +230,7 @@
     <string name="settings_lg_hint_lens_blur">Lens Blur 控制透镜边缘的模糊扩散（单位：dp）。配合 Dilation 一起影响透镜的整体视觉强度。</string>
     <string name="settings_lg_hint_chromatic_aberration">色散效果模拟相机镜头的色差现象，在透镜边缘产生彩虹般的色彩分离。仅部分组件（如 LiquidSwitch）支持。</string>
     <string name="settings_lg_hint_highlight">高光反射模拟环境光在玻璃表面的反射效果，增强玻璃的立体质感。仅部分组件（如 LiquidSwitch、LiquidDialog）支持。</string>
+    <string name="settings_lg_glass_customize">液态玻璃自定义</string>
     <string name="settings_lg_view_hint">查看说明</string>
     <string name="about_developer">开发者</string>
     <string name="about_github">GitHub: github.com/jetcomx</string>

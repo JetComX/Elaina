@@ -1,6 +1,5 @@
 package com.jetcomx.elaina.screen.settings
 
-import android.R.attr.fontWeight
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.BackHandler

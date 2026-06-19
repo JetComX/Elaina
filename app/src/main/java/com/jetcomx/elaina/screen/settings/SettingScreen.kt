@@ -4,15 +4,13 @@ import android.annotation.SuppressLint
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,8 +26,8 @@ import androidx.compose.material.icons.filled.LensBlur
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ThumbUpAlt
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,7 +37,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -49,18 +46,18 @@ import androidx.compose.ui.unit.sp
 import com.jetcomx.elaina.R
 import com.jetcomx.elaina.navigation.LocalNavigator
 import com.jetcomx.elaina.navigation.Route
+import com.jetcomx.elaina.theme.MiuixThemeManager
 import com.jetcomx.elaina.ui.component.LiquidArrowPreference
-import com.jetcomx.elaina.ui.component.LiquidGlassSnackbarHostImpl
-import com.jetcomx.elaina.ui.component.LocalBackgroundBackdrop
-import com.jetcomx.elaina.ui.component.LocalLiquidGlassSurface
-import com.jetcomx.elaina.ui.component.LiquidWindowDialog
 import com.jetcomx.elaina.ui.component.LiquidButton
+import com.jetcomx.elaina.ui.component.LiquidGlassSnackbarHostImpl
 import com.jetcomx.elaina.ui.component.LiquidOverlayDropdownPreference
 import com.jetcomx.elaina.ui.component.LiquidSwitchPreference
+import com.jetcomx.elaina.ui.component.LiquidWindowDialog
+import com.jetcomx.elaina.ui.component.LocalBackgroundBackdrop
+import com.jetcomx.elaina.ui.component.LocalLiquidGlassSurface
 import com.jetcomx.elaina.utils.AppSettings
 import com.jetcomx.elaina.utils.CrashHandler
 import com.jetcomx.elaina.utils.LogExporter
-import com.jetcomx.elaina.theme.MiuixThemeManager
 import com.kyant.backdrop.backdrops.rememberLayerBackdrop
 import kotlinx.coroutines.launch
 import top.yukonga.miuix.kmp.basic.BasicComponentDefaults
@@ -78,12 +75,12 @@ import top.yukonga.miuix.kmp.basic.TopAppBar
 import top.yukonga.miuix.kmp.icon.MiuixIcons
 import top.yukonga.miuix.kmp.icon.extended.Background
 import top.yukonga.miuix.kmp.icon.extended.Community
-import top.yukonga.miuix.kmp.icon.extended.ConvertFile
 import top.yukonga.miuix.kmp.icon.extended.Create
+import top.yukonga.miuix.kmp.icon.extended.ExpandLess
 import top.yukonga.miuix.kmp.icon.extended.Image
+import top.yukonga.miuix.kmp.icon.extended.Share
 import top.yukonga.miuix.kmp.icon.extended.Theme
 import top.yukonga.miuix.kmp.icon.extended.Tune
-import top.yukonga.miuix.kmp.icon.extended.Update
 import top.yukonga.miuix.kmp.icon.extended.UploadCloud
 import top.yukonga.miuix.kmp.preference.ArrowPreference
 import top.yukonga.miuix.kmp.preference.SwitchPreference
@@ -93,8 +90,6 @@ import top.yukonga.miuix.kmp.theme.MiuixTheme
 import top.yukonga.miuix.kmp.utils.overScrollVertical
 import top.yukonga.miuix.kmp.utils.scrollEndHaptic
 import top.yukonga.miuix.kmp.window.WindowDialog
-import top.yukonga.miuix.kmp.icon.extended.ExpandLess
-import top.yukonga.miuix.kmp.icon.extended.Share
 
 private data class AccentOption(val name: String, val color: Color?)
 

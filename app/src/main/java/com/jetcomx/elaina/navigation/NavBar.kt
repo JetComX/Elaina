@@ -58,6 +58,7 @@ fun NavBar(
     if (uiStyle == 1) {
         val navBackdrop = backdrop ?: rememberLayerBackdrop()
         val tabsCount = NavData.entries.size
+        val highlightEnabled by AppSettings.glassHighlightEnabled.collectAsState()
 
         val currentIndex = NavData.entries.indexOfFirst { item ->
             currentDestination?.hierarchy?.any { it.route == item.route } == true
@@ -71,6 +72,7 @@ fun NavBar(
             onTabSelected = { index -> navigate(NavData.entries[index]) },
             backdrop = navBackdrop,
             tabsCount = tabsCount,
+            highlightEnabled = highlightEnabled,
             modifier = modifier
                 .fillMaxWidth()
                 .padding(horizontal = 36.dp, vertical = 8.dp)

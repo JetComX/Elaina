@@ -28,9 +28,6 @@ import com.jetcomx.elaina.ui.utils.InteractiveHighlight
 import com.jetcomx.elaina.utils.AppSettings
 import com.kyant.backdrop.Backdrop
 import com.kyant.backdrop.drawBackdrop
-import com.kyant.backdrop.effects.blur
-import com.kyant.backdrop.effects.lens
-import com.kyant.backdrop.effects.vibrancy
 import com.kyant.shapes.Capsule
 import top.yukonga.miuix.kmp.utils.PressFeedbackType
 import kotlin.math.abs
